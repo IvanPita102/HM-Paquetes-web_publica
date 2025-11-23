@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+  <div class="container text-center py-5">
+    <h1 class="text-white display-3">Servicios</h1>
+    <div class="d-inline-flex align-items-center text-white">
+      <p class="m-0">
+        <a class="text-white" href="{% url 'website_app:index' %}">Inicio</a>
+      </p>
+      <i class="fa fa-circle px-3"></i>
+      <p class="m-0">
+        <a class="text-white" href="{% url 'website_app:services' %}">Servicios</a>
+      </p>
+      <i class="fa fa-circle px-3"></i>
+      <p class="m-0">Carga Marítima</p>
+    </div>
+  </div>
+{% endblock %}
+
+{% block contenido %}
+
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/sea_freight_service.webp' %}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">Del puerto a tus manos, con confianza y rapidez.</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Servicio</h6>
+                    <h1 class="mb-4">Carga Marítima</h1>
+                    <p class="mb-4">
+                        Proveniente de todos los continentes, brindamos servicios de distribución a la carga con entrada
+                        al país de forma marítima, con tiempos de entrega que compiten con los envíos aéreos.
+                    </p>
+                    <p>Nuestros puertos de entrada, son principalmente El Mariel y El puerto de la Habana.</p>
+                    Empresas transitarias, Aerovaradero, EMCI, Cubanacan Express y Transcargo que tiene la mayor
+                    fortaleza en este tipo de cargas.
+                    Brindamos el servicio de extracción y devolución de los contenedores al puerto, extracción de la
+                    transitaria una vez nacionalizada la carga y entrega en la última milla hasta la puerta de la casa
+                    de cada cliente en todo el territorio nacional.</p>
+                    <p>
+                        Para contratar esto servicios las agencias de paquetería en el exterior deben tener contratos
+                        con empresas transitarias en el territorio nacional, solicitar la verticalidad de la
+                        distribución a favor de HM Paquetes SRL y habrá escogido el mejor camino para su carga, el mejor
+                        destino para sus clientes.
+                    </p>
+                    <p>
+                        <strong>Tarifas, las más atractivas y el servicio de mejor calidad</strong>, si posee una
+                        agencia en el exterior y tiene contrato con alguna transitaria contáctenos para la distribución
+                        de su carga, escríbanos a hmpaquetes1@hmpaquetes.com y recibirá una orientación adecuada e información suficiente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services End -->
+  {% include 'cotizacion.html' %}
+{% endblock %}

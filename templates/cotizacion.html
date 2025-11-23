@@ -1,0 +1,56 @@
+<!--  Quote Request Start -->
+    <div class="container-fluid bg-secondary my-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 py-5 py-lg-0">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Obtener Cotización</h6>
+                    <h1 class="mb-4">Solicitar Cotización Gratuita</h1>
+                    <p class="mb-4">Contáctenos para obtener una cotización personalizada que se adapte a sus necesidades logísticas específicas. Nuestro equipo está listo para ayudarle.</p>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <h1 class="text-primary mb-2" data-toggle="counter-up">225</h1>
+                            <h6 class="font-weight-bold mb-4">Expertos Calificados</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h1 class="text-primary mb-2" data-toggle="counter-up">1050</h1>
+                            <h6 class="font-weight-bold mb-4">Clientes Satisfechos</h6>
+                        </div>
+                        <div class="col-sm-4">
+                            <h1 class="text-primary mb-2" data-toggle="counter-up">2500</h1>
+                            <h6 class="font-weight-bold mb-4">Proyectos Completados</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="bg-primary py-4 px-4 px-sm-5">
+                        <form id="form-cotizacion" class="py-4">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" name ="nombre" class="form-control border-0 p-4" placeholder="Su Nombre" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name ="correo" class="form-control border-0 p-4" placeholder="Su Correo Electrónico" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <select class="custom-select border-0 px-4" name ="servicios" style="height: 47px;">
+                                    <option selected>Seleccionar un Servicio</option>
+                                    {% for servicio in servicios %}
+                                            <option value="{{ servicio.pk }}">
+                                            {{ servicio.nombre }}
+                                            </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea  name ="descripcion" class="form-control border-0 p-4" rows="6" placeholder="Descripción" required="required"></textarea>
+                            </div>
+                            <div>
+                                <button class="btn btn-dark btn-block border-0 py-3" type="submit">Obtener Cotización</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Quote Request Start -->

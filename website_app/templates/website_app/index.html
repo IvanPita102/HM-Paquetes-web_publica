@@ -1,0 +1,421 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block header %}
+<div class="container text-center py-5">
+            <h1 class="text-primary mb-4">Seguro y Rápido</h1>
+            <h1 class="text-white display-3 mb-5">Servicios Logísticos</h1>
+            <div class="mx-auto" style="width: 100%; max-width: 600px;">
+                <div class="input-group">
+                    <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Introduzca un número de Envío aqui..." id="trackingInput">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary px-3" id="trackButton">
+                            <svg width="40" height="40" class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-ltr-iguwhy" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M13.02 19.93v2.02c2.01-.2 3.84-1 5.32-2.21l-1.42-1.43c-1.11.86-2.44 1.44-3.9 1.62M4.03 12c0-4.05 3.03-7.41 6.95-7.93V2.05C5.95 2.58 2.03 6.84 2.03 12s3.92 9.42 8.95 9.95v-2.02c-3.92-.52-6.95-3.88-6.95-7.93m15.92-1h2.02c-.2-2.01-1-3.84-2.21-5.32l-1.43 1.43c.86 1.1 1.44 2.43 1.62 3.89m-1.61-6.74c-1.48-1.21-3.32-2.01-5.32-2.21v2.02c1.46.18 2.79.76 3.9 1.62zm-.01 12.64 1.43 1.42c1.21-1.48 2.01-3.31 2.21-5.32h-2.02c-.18 1.46-.76 2.79-1.62 3.9"></path><path d="M16 11.1C16 8.61 14.1 7 12 7s-4 1.61-4 4.1c0 1.66 1.33 3.63 4 5.9 2.67-2.27 4-4.24 4-5.9m-4 .9c-.59 0-1.07-.48-1.07-1.07s.48-1.07 1.07-1.07 1.07.48 1.07 1.07S12.59 12 12 12"></path></svg>
+                            Rastrear Envío</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block contenido %}
+<!-- About Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/about.jpg' %}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">10+ Años de Experiencia</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Sobre Nosotros</h6>
+                    <h1 class="mb-4">Proveedor de Servicios Logísticos Confiable y Rápido</h1>
+                    <p class="mb-4">Ofrecemos soluciones logísticas integrales con un enfoque en la eficiencia, seguridad y satisfacción del cliente. Nuestro equipo experto garantiza entregas puntuales y un servicio excepcional.</p>
+                    <div class="d-flex align-items-center pt-2">
+                        <button type="button" class="btn-play" data-toggle="modal" data-src="{% static 'video/video.mp4' %}" data-target="#videoModal">
+                            <span></span>
+                        </button>
+                        <h5 class="font-weight-bold m-0 ml-4">Reproducir Video</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Video Modal -->
+        <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>        
+                        <!-- 16:9 aspect ratio -->
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="" id="video"  allowscriptaccess="always" allow="autoplay"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->    
+
+    {% include "cotizacion.html" %}
+
+    {% include "Servicios.html" %}
+
+    {% include "pq_elegirnos.html" %}
+
+{% endblock %}
+
+{% block js %}
+<style>
+/* 1. Define la altura máxima del modal-content (el contenedor principal) */
+#trackingModal .modal-content {
+    /* Establece un máximo que no exceda el 90% de la altura de la ventana. */
+    max-height: 90vh; 
+}
+
+/* 2. Permite que el cuerpo del modal use toda la altura disponible y activa el scroll */
+#trackingModal .modal-body {
+    /* La altura se ajusta automáticamente al contenido restante, 
+       pero limitamos el scroll del contenido interno. */
+    overflow-y: hidden; /* Oculta el scroll en el body de Bootstrap */
+    padding: 0 15px; /* Ajusta el padding si es necesario */
+}
+
+/* 3. Aplica la altura restante y el scroll al contenedor dinámico */
+#trackingContent {
+    /* El 100% de la altura disponible dentro del modal-body. */
+    max-height: 100%; 
+    height: calc(90vh - 150px); /* 90vh es el max-height del modal. 
+                                   150px es un estimado para Header y Footer. Ajusta este valor si es necesario. */
+    overflow-y: auto; /* 🛑 Habilita el scroll vertical aquí. */
+    padding-right: 15px; /* Espacio para la barra de scroll */
+}
+
+/* Estado compacto para mensajes cortos */
+#trackingModal.modal-compact .modal-content {
+    max-height: 360px;
+}
+
+#trackingModal.modal-compact .modal-body {
+    padding: 25px;
+}
+
+#trackingModal.modal-compact #trackingContent {
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
+    padding: 0;
+}
+
+.tracking-empty {
+    padding: 20px;
+}
+
+.tracking-empty__icon {
+    font-size: 42px;
+}
+</style>
+
+<script>
+    // Función helper para obtener cookies
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    $(document).ready(function() {
+    // SOLUCIÓN PARA DETENER EL VIDEO AL CERRAR EL MODAL
+    $('#videoModal').on('hidden.bs.modal', function () {
+        // Detiene la reproducción al vaciar el atributo 'src' del iframe.
+        // Esto previene que el audio se siga escuchando en segundo plano.
+        $('#video').attr('src', '');
+    });
+
+
+    // Lógica para cargar el video cuando se abre el modal (ya la debes tener)
+    $("#videoModal").on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que disparó el modal
+        var videoUrl = button.data('src');   // Obtener la URL del video del atributo data-src
+        
+        // Cargar la URL del video y añadir 'autoplay=1' para que inicie la reproducción
+        // Es importante que el videoUrl se pase correctamente.
+        $("#video").attr("src", videoUrl + "?autoplay=1"); 
+    });
+
+
+    // Función genérica para mostrar mensajes en el modal
+    function showStatusMessage({ title, message, type = 'error' }) {
+        const config = {
+            error: {
+                icon: 'fas fa-exclamation-triangle text-danger',
+                heading: title || 'Ocurrió un problema',
+            },
+            success: {
+                icon: 'fas fa-check-circle text-success',
+                heading: title || 'Operación exitosa',
+            },
+            info: {
+                icon: 'fas fa-info-circle text-primary',
+                heading: title || 'Información',
+            },
+        };
+
+        const { icon, heading } = config[type] || config.error;
+        const bodyText = message || '';
+
+        $('#trackingModal').addClass('modal-compact');
+        $('#trackingContent').html(`
+            <div class="tracking-empty text-center">
+                <div class="tracking-empty__icon mb-3">
+                    <i class="${icon}"></i>
+                </div>
+                <h5 class="mb-2">${heading}</h5>
+                <p class="text-muted mb-0">${bodyText}</p>
+            </div>
+        `);
+        $('#trackingModal').modal('show');
+    }
+
+    function showError(message) {
+        showStatusMessage({
+            title: 'Sin resultados',
+            message: message || 'No se pudo encontrar información para este envío.',
+            type: 'error'
+        });
+    }
+
+
+    async function loadShipmentDetails(cod) {
+            const response = await fetch(`shipmentDetails/${cod}/`);
+
+            if (!response.ok) {
+                const data = await response.json();
+                
+                throw new Error(data.error || `Error HTTP: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (!data?.historial) {
+                throw new Error(data?.error || 'No pudo recuperar los detalles del envío.');
+            }
+
+            return data;
+    }
+
+    function createTimeline(data) {
+        historial = data.historial;
+
+        if (!historial || historial.length === 0) {
+            return '<p class="text-center text-muted">Aún no hay eventos registrados.</p>';
+        }
+
+        // Ordenar el historial por fecha descendente (lo más reciente primero)
+        const sortedHistorial = historial.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+        let timelineHTML = '<div class="timeline-container">';
+
+        sortedHistorial.forEach((evento, index) => {
+            // Determinar la clase para el ícono/color (puedes expandir este mapeo)
+            const iconClass = index === 0 ? 'bg-primary' : 'bg-secondary';
+            const icon = index === 0 ? '&#10003;' : '&#9679;'; // Checkmark para el último estado, punto para los demás
+            const statusStyle = index === 0 ? 'font-weight-bold' : 'text-muted';
+
+            timelineHTML += `
+                <div class="timeline-item">
+                    <div class="timeline-icon ${iconClass}">
+                        ${icon}
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${evento.fecha}</div>
+                        <p class="${statusStyle}">${evento.evento}</p>
+                        <small class="text-muted">${evento.detalle || ''}</small>
+                    </div>
+                </div>
+            `;
+        });
+
+        timelineHTML += '</div>';
+        return timelineHTML;
+    }
+
+    // Función para mostrar los detalles del envío
+    function showShipmentDetails(shipment) {
+        const statusClass = {
+            'No Recibido': 'warning',
+            'Recibido': 'info',
+            'En Trayecto': 'info',
+            'Entregado': 'success',
+            'Enviado': 'info'
+        }[shipment.envio.estado] || 'secondary';
+
+        let interfaz = `
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h6 class="card-title mb-4">Detalles del Envío: ${shipment.envio.codigo}</h6>
+                    <div class="row mb-3 align-items-center">
+                        <div class="col-6">
+                            <p class="mb-1 text-muted">Estado Actual:</p>
+                            <span class="badge badge-${statusClass} p-2">${shipment.envio.estado}</span>
+                        </div>
+                        <div class="col-6 text-right">
+                            <p class="mb-1 text-muted">Días restantes:</p>
+                            <h4 class="text-primary">${shipment.envio.dias_para_entrega || '-'}</h4>
+                        </div>
+                    </div>
+                    
+                    ${(shipment.envio.almacen && shipment.envio.estado != "Entregado") ? `
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <p class="mb-1"><strong>Almacén Actual:</strong> ${shipment.envio.almacen}</p>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${(shipment.envio.estado === "Entregado" && shipment.envio.foto_confirmacion) ? `
+                        <div class="col-12 text-center mt-3">
+                            <h6>Evidencia de Entrega:</h6>
+                            <img class="img-fluid" src="${'http://72.60.114.241/media/' + shipment.envio.foto_confirmacion}" alt="Foto de Entrega" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+            <h5 class="mt-4 mb-3">Historial de Eventos</h5>
+            ${createTimeline(shipment)} `;
+
+        $('#trackingModal').removeClass('modal-compact');
+        $('#trackingContent').html(interfaz);
+        $('#trackingModal').modal('show');
+    }
+    
+    // Manejar el clic en el botón de tracking
+    $('#trackButton').click(async function() {
+        const trackingId = $('#trackingInput').val().trim();
+
+        if (!trackingId) {
+            showError('Por favor, ingrese un número de seguimiento');
+            return;
+        }
+
+        // Mostrar indicador de carga
+        $('#trackingModal').removeClass('modal-compact');
+        $('#trackingContent').html(`
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+                <p class="mt-2">Buscando información del envío...</p>
+            </div>
+        `);
+        $('#trackingModal').modal('show');
+
+        // Realizar la petición al servidor usando la ruta correcta
+        try {
+            envio = await loadShipmentDetails(trackingId);
+            showShipmentDetails(envio);
+        } catch (e) {
+            showError(e.message || 'No se encontró un envío con ese código.');
+        }
+    });
+
+    // Permitir buscar al presionar Enter
+    $('#trackingInput').keypress(function(e) {
+        if (e.which === 13) {
+            $('#trackButton').click();
+        }
+    });
+
+    // Manejar el envío del formulario de cotización
+    $('#form-cotizacion').on('submit', async function(e) {
+        // 1. Prevenir el envío de formulario por defecto (IMPORTANTE)
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 2. Elementos del DOM
+        const form = this;
+        const submitButton = form.querySelector('button[type="submit"]');
+        const originalButtonHtml = submitButton.innerHTML;
+
+        // 3. Deshabilitar el botón y mostrar un indicador de carga
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+
+        try {
+            // 4. Recolectar datos del formulario usando FormData
+            const formData = new FormData(form);            
+            const CSRF_TOKEN = '{{ csrf_token }}';
+           
+
+            // 6. URL del endpoint
+            const url = '{% url "website_app:insertar_cotizacion" %}';
+            
+            // 7. Enviar la petición
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': CSRF_TOKEN
+                },
+            });
+
+            // 8. Manejar la respuesta
+            if (response.ok) {
+                const data = await response.json();
+                showStatusMessage({
+                    title: '¡Cotización enviada!',
+                    message: 'Pronto nos comunicaremos contigo.',
+                    type: 'success'
+                });
+                form.reset(); // Limpiar el formulario
+            } else {
+                // Error HTTP (4xx, 5xx)
+                let errorMessage = 'Ocurrió un error al enviar la cotización. Inténtalo de nuevo.';
+                
+                try {
+                    const errorData = await response.json();
+                    if (errorData.error) {
+                        errorMessage = errorData.error;
+                    } else {
+                        errorMessage = `Error HTTP ${response.status}: ${errorMessage}`;
+                    }
+                } catch (e) {
+                    errorMessage = `Error desconocido. Código de estado: ${response.status}`;
+                }
+                
+                showStatusMessage({
+                    title: 'Error al enviar la cotización',
+                    message: errorMessage,
+                    type: 'error'
+                });
+            }
+        } catch (error) {
+            // Manejar errores de red o errores de ejecución
+            console.error("Error de red o ejecución:", error);
+            showStatusMessage({
+                title: 'Error de conexión',
+                message: 'No se pudo contactar con el servidor. Verifica tu red.',
+                type: 'error'
+            });
+        } finally {
+            // 9. Restaurar el botón de envío
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonHtml;
+        }
+    });
+   
+}); 
+</script>
+{% endblock %}

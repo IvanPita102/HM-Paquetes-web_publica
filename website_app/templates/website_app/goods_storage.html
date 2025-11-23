@@ -1,0 +1,66 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block header %}
+
+<div class="container text-center py-5">
+            <h1 class="text-white display-3">Servicios</h1>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'index' %}">Inicio</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0"><a class="text-white" href="{% url 'services' %}">Servicios</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0">Almacenamiento</p>
+            </div>
+</div>
+
+{% endblock %}
+
+{% block contenido %}
+
+    <!-- Services Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/goods storage_service.jpg'%}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">Tu carga segura, nuestra prioridad.</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Servicio</h6>
+                    <h1 class="mb-4">Almacenamiento</h1>
+                    <p class="mb-4">
+                        HM Paquetes pone a su disposición, capacidades de almacenaje según sus necesidades, solamente
+                        debe garantizar la licitud de su mercancía y como ofertas extras le brindamos el servicio de
+                        distribución de los mismos cuando usted lo disponga.</p>
+                    <p>
+                        Este servicio está previsto para todo el país, pero dependerá de la capacidad real en el momento
+                        de su solicitud y las características de su necesidad, estando las mayores potencialidades en La
+                        Habana y Santiago de Cuba.</p>
+                    <p>
+                        En todos los casos se le brinda el servicio de los palés y si usted lo solicita se le brinda el
+                        manejo de su carga con nuestros manipuladores.
+                        Se lleva inventario físico con conciliaciones para brindar transparencia y seguridad en el
+                        servicio.
+                        Los almacenes con seguridad y buen estado constructivos.
+                    </p>
+                    <p>
+                        <strong>Tarifas, las más atractivas y el servicio de mejor calidad</strong>, si posee una
+                        agencia en el exterior y tiene contrato con alguna transitaria contáctenos para la distribución
+                        de su carga, escríbanos a hmpaquetes1@hmpaquetes.com y recibirá una orientación adecuada e
+                        información suficiente.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services End -->
+
+{% include 'cotizacion.html' %}
+
+{% endblock %}
+

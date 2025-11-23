@@ -1,0 +1,73 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block header %}
+
+<div class="container text-center py-5">
+            <h1 class="text-white display-3">Servicios</h1>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'website_app:index' %}">Inicio</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0"><a class="text-white" href="{% url 'website_app:services' %}">Servicios</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0">Transporte Terrestre</p>
+            </div>
+</div>
+
+{% endblock %}
+
+{% block contenido %}
+
+    <!-- Services Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/land transport_service.jpg' %}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">Tu paquete en camino, cuidado y a tiempo.</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Servicio</h6>
+                    <h1 class="mb-4">Transporte Terrestre</h1>
+                    <p class="mb-4">
+                        Si usted tiene necesidad de realizar transportaciones dentro de CUBA, para su negocio o interés
+                        personal, HM Paquetes le brinda una gama de oportunidades personalizadas en correspondencia con
+                        la cantidad y calidad de su carga, hasta todos los destinos en el territorio nacional.
+                    </p>
+                    <p>
+                        Brindamos servicios de extracción de contenedores, transportaciones en vehículos de 2, 5, 10, 15
+                        y 35 toneladas.
+                        Brindamos servicios en vehículos cerrados o planchas abiertas en correspondencia con sus
+                        necesidades.
+                    </p>
+                    <p>
+                        Si desea contratar el servicio de carga y descarga de su mercancía, contamos con medios y
+                        personal especializado para el manejo de todo tipo de carga, disponible en todo el país.
+                    </p>
+                    <p>De igual manera brindamos un servicio único, LA PAQUETERIA NACIONAL, que incluye la recepción de
+                        cargas nacionales en todo el país para ser entregada al destino solicitado con tarifas muy
+                        competitivas y seguridad máxima.
+                    </p>
+                    <p>
+                        También contratamos los servicios de distribución a los productos de su negocio en todo el
+                        territorio nacional.
+                    </p>
+                    <p>
+                        <strong>Tarifas, las más atractivas y el servicio de mejor calidad</strong>, si posee una
+                        agencia en el exterior y tiene contrato con alguna transitaria contáctenos para la distribución
+                        de su carga, escríbanos a hmpaquetes1@hmpaquetes.com y recibirá una orientación adecuada e
+                        información suficiente.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services End -->
+
+    {% include 'cotizacion.html' %}
+
+{% endblock %}

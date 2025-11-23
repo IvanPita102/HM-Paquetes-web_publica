@@ -1,0 +1,64 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block header %}
+
+<div class="container text-center py-5">
+            <h1 class="text-white display-3">Nosotros</h1>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="index.html">Inicio</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0">Nosotros</p>
+            </div>
+</div>
+
+{% endblock %}
+
+{% block contenido %}
+
+<!-- About Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/hmpaquetes_family.jpg' %}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">Pasión y compromiso, unidos como familia.</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Sobre Nosotros</h6>
+                    <h1 class="mb-4">HM Paquetes S.R.L.</h1>
+                    <p class="mb-4">Somos una empresa privada, radicada en Cuba, dedicada a la clasificación,
+                        distribución, transportación y entrega de mercancías provenientes del exterior contratadas a una
+                        entidad transitaria estatal y de mercancías no provenientes del exterior.
+                    </p>
+                    <p>
+                        De forma general HM Paquetes se dedica a la logística general e integral, brinda servicios de
+                        almacenamiento y asesoría a sus clientes.
+
+                        Contamos con almacenes en todas las provincias del país, estructuras de distribución y
+                        transporte en todo el territorio nacional, más 84 trabajadores competentes y los servicios
+                        contratados de mensajeros adiestrados en esta actividad.
+                    </p>
+                    <p>
+                        Trabajamos con todas las empresas transitarias autorizadas en el territorio nacional, recibimos
+                        cargas de clientes de todos los continentes, por vía aérea y marítima,
+                        Nos distingue los periodos de entrega, que llegamos a todo el territorio nacional y la
+                        excelencia y seguridad en el servicio.
+                    </p>
+                    <p>
+                        Nuestra prioridad es la satisfacción de los clientes, asegurando entregas puerta a puerta dentro
+                        de los plazos establecidos para cada municipio del país. Creemos firmemente en el valor humano
+                        de nuestro trabajo: detrás de cada paquete hay una familia que espera con confianza y
+                        expectativas. Por eso, brindamos un servicio cálido, fiable y con todas las garantías
+                        necesarias, comprometidos siempre con el cumplimiento y la confianza de quienes depositan en
+                        nosotros sus envíos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+    {% include 'pq_elegirnos.html' %}
+{% endblock %}

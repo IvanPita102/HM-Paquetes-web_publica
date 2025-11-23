@@ -1,0 +1,58 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block header %}
+        <div class="container text-center py-5">
+            <h1 class="text-white display-3">Servicios</h1>
+            <div class="d-inline-flex align-items-center text-white">
+                <p class="m-0"><a class="text-white" href="{% url 'website_app:index' %}">Inicio</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0"><a class="text-white" href="{% url 'website_app:services' %}">Servicios</a></p>
+                <i class="fa fa-circle px-3"></i>
+                <p class="m-0">Carga Aérea</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block contenido %}
+
+    <!-- Services Start -->
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-5 pb-4 pb-lg-0">
+                    <img class="img-fluid w-100" src="{% static 'img/air_freight_service.jpg' %}" alt="">
+                    <div class="bg-primary text-dark text-center p-4">
+                        <h3 class="m-0">Tu carga vuela segura, nosotros la recibimos.</h3>
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <h6 class="text-primary text-uppercase font-weight-bold">Servicio</h6>
+                    <h1 class="mb-4">Carga Aérea</h1>
+                    <p class="mb-4">
+                        Brindamos servicio de distribución a las cargas aéreas provenientes del exterior con máxima
+                        prioridad en la entrega.
+                        Recibimos carga aérea por las transitarias EMCI de correos de Cuba, Aerovaradero, Cubanacan
+                        Express y Transcargo, abiertos a contratar los servicios de otras transitarias si los clientes
+                        lo solicitan.
+                    </p>
+                    <p>En las cargas que llegan vía aérea, brindamos el servicio de extracción desde aeropuerto hasta la
+                        transitaria de destino y después del despacho de aduana la entrega al destino final.
+                        Recibimos cargas aéreas por Santiago de Cuba, Holguín, Cienfuegos y La Habana, con logística
+                        suficiente para llegar a cada aeropuerto del país.</p>
+                    <p>
+                        <strong>Tarifas, las más atractivas y el servicio de mejor calidad</strong>, si posee una
+                        agencia en el exterior y tiene contrato con alguna transitaria contáctenos para la distribución
+                        de su carga, escríbanos a hmpaquetes1@hmpaquetes.com y recibirá una orientación adecuada e
+                        información suficiente.
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+{% include 'cotizacion.html' %}
+
+{% endblock%}
