@@ -1,7 +1,7 @@
 import logging
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from hmpaquetesapp.models import Envio, ItemDocumento
+from hmpaquetesapp.models import Envio, ItemDocumento, Locacion
 from cotizacion_app.service.cotizacion_service import ServicioCotizacion
 from cotizacion_app.models import Servicio, Cotizacion
 
@@ -50,13 +50,41 @@ def shipment_details(request, cod):
         logger.info(f'Items de documento encontrados: {items.count()}')
         
         if not items.exists():
+            # Calcular días para entrega
+            dias_para_entrega = 0
+            if envio_obj.estado == 'Recibido':
+                # envio_obj.locacion es un string, necesitamos buscar el objeto Locacion
+                locacion_obj = None
+                if envio_obj.locacion:
+                    try:
+                        locacion_obj = Locacion.objects.get(nombre=envio_obj.locacion)
+                    except Locacion.DoesNotExist:
+                        pass
+                
+                if locacion_obj and locacion_obj.es_almacen_central:
+                    dias_para_entrega = 7
+                else:
+                    dias_para_entrega = 5
+            elif envio_obj.estado == 'Enviado':
+                dias_para_entrega = 1
+            
             return JsonResponse({ 
                 'success': True, 
+                'envio': {
+                    'codigo': envio_obj.no_envio,
+                    'estado': envio_obj.estado,
+                    'almacen': envio_obj.locacion if envio_obj.estado != 'No Recibido' and envio_obj.locacion else '',
+                    'dias_para_entrega': dias_para_entrega,
+                    'foto_confirmacion': envio_obj.foto_entrega.url if envio_obj.estado == 'Entregado' and envio_obj.foto_entrega else '',
+                },
                 'historial': [], 
                 'mensaje': 'No se encontraron movimientos para este envío.' 
             }, safe=False)
 
         historial = []
+        # Inicializar variables por si el loop no procesa ningún item
+        fecha = None
+        tipo = None
         
         for item in items:
             doc = item.documento 
@@ -87,7 +115,8 @@ def shipment_details(request, cod):
 
                     detalle = f"""El envio a arribado al almacén <strong>{locacion_destino_nombre}</strong> transferido desde el almacén <strong>{locacion_origen_nombre}</strong>."""
 
-                case 'despachomensajero':                    
+                case 'despachomensajero':
+                    locacion_origen_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocido')
                     base_detalle = f"""El mensajero recogio el envio en el centro de distribucion <strong>{locacion_origen_nombre}</strong> y esta en proceso de entrega."""
                     
                     if item.devuelto:
@@ -112,13 +141,16 @@ def shipment_details(request, cod):
         if len(historial) == 0:
                 evento = 'Aduana'
                 detalle = 'El envío aún no ha sido recibido por el transportista.' if envio_obj.estado in ['No Recibido', 'Desaforado'] else f'Estado {envio_obj.estado} incorrecto.'
-            
+                # Usar fecha actual si no hay fecha disponible
+                from django.utils import timezone
+                fecha_fallback = timezone.now().strftime('%d/%m/%Y %I:%M %p')
+                tipo_fallback = 'sin_tipo'
             
                 historial.append({
                     'evento': evento,
-                    'fecha': fecha,
+                    'fecha': fecha if fecha else fecha_fallback,
                     'detalle': detalle,
-                    'tipo': tipo
+                    'tipo': tipo if tipo else tipo_fallback
                 })    
                 
         # Ordenar historial (usando la fecha como cadena formateada)
@@ -127,7 +159,15 @@ def shipment_details(request, cod):
         # logica para el calculo de dias para entrega
         dias_para_entrega = 0
         if envio_obj.estado == 'Recibido':
-            if envio_obj.locacion.es_almacen_central:
+            # envio_obj.locacion es un string, necesitamos buscar el objeto Locacion
+            locacion_obj = None
+            if envio_obj.locacion:
+                try:
+                    locacion_obj = Locacion.objects.get(nombre=envio_obj.locacion)
+                except Locacion.DoesNotExist:
+                    pass
+            
+            if locacion_obj and locacion_obj.es_almacen_central:
                 dias_para_entrega = 7
             else:
                 dias_para_entrega = 5

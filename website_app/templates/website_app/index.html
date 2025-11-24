@@ -254,22 +254,29 @@
 
     // Función para mostrar los detalles del envío
     function showShipmentDetails(shipment) {
+        // Validación defensiva
+        if (!shipment || !shipment.envio) {
+            showError('Los datos del envío no están disponibles.');
+            return;
+        }
+        
+        const estado = shipment.envio.estado || 'Desconocido';
         const statusClass = {
             'No Recibido': 'warning',
             'Recibido': 'info',
             'En Trayecto': 'info',
             'Entregado': 'success',
             'Enviado': 'info'
-        }[shipment.envio.estado] || 'secondary';
+        }[estado] || 'secondary';
 
         let interfaz = `
             <div class="card mb-4">
                 <div class="card-body">
-                    <h6 class="card-title mb-4">Detalles del Envío: ${shipment.envio.codigo}</h6>
+                    <h6 class="card-title mb-4">Detalles del Envío: ${shipment.envio.codigo || 'N/A'}</h6>
                     <div class="row mb-3 align-items-center">
                         <div class="col-6">
                             <p class="mb-1 text-muted">Estado Actual:</p>
-                            <span class="badge badge-${statusClass} p-2">${shipment.envio.estado}</span>
+                            <span class="badge badge-${statusClass} p-2">${estado}</span>
                         </div>
                         <div class="col-6 text-right">
                             <p class="mb-1 text-muted">Días restantes:</p>
@@ -277,7 +284,7 @@
                         </div>
                     </div>
                     
-                    ${(shipment.envio.almacen && shipment.envio.estado != "Entregado") ? `
+                    ${(shipment.envio.almacen && estado != "Entregado") ? `
                         <div class="row mb-3">
                             <div class="col-12">
                                 <p class="mb-1"><strong>Almacén Actual:</strong> ${shipment.envio.almacen}</p>
@@ -285,7 +292,7 @@
                         </div>
                     ` : ''}
 
-                    ${(shipment.envio.estado === "Entregado" && shipment.envio.foto_confirmacion) ? `
+                    ${(estado === "Entregado" && shipment.envio.foto_confirmacion) ? `
                         <div class="col-12 text-center mt-3">
                             <h6>Evidencia de Entrega:</h6>
                             <img class="img-fluid" src="${'http://72.60.114.241/media/' + shipment.envio.foto_confirmacion}" alt="Foto de Entrega" style="max-height: 200px; object-fit: cover;">
