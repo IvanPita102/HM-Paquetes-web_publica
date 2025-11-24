@@ -1,6 +1,7 @@
 import logging
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
+from django.utils import timezone
 from hmpaquetesapp.models import Envio, ItemDocumento, Locacion
 from cotizacion_app.service.cotizacion_service import ServicioCotizacion
 from cotizacion_app.models import Servicio, Cotizacion
@@ -149,7 +150,6 @@ def shipment_details(request, cod):
             evento = 'Aduana'
             detalle = 'El envío aún no ha sido recibido por el transportista.' if envio_obj.estado in ['No Recibido', 'Desaforado'] else f'Estado {envio_obj.estado} incorrecto.'
             # Usar fecha actual si no hay fecha disponible
-            from django.utils import timezone
             fecha_fallback = timezone.now().strftime('%d/%m/%Y %I:%M %p')
             tipo_fallback = 'sin_tipo'
         
