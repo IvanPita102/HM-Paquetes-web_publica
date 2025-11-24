@@ -146,20 +146,20 @@ def shipment_details(request, cod):
             })
 
         if len(historial) == 0:
-                evento = 'Aduana'
-                detalle = 'El envío aún no ha sido recibido por el transportista.' if envio_obj.estado in ['No Recibido', 'Desaforado'] else f'Estado {envio_obj.estado} incorrecto.'
-                # Usar fecha actual si no hay fecha disponible
-                from django.utils import timezone
-                fecha_fallback = timezone.now().strftime('%d/%m/%Y %I:%M %p')
-                tipo_fallback = 'sin_tipo'
-            
-                historial.append({
-                    'evento': evento,
-                    'fecha': fecha if fecha else fecha_fallback,
-                    'detalle': detalle,
-                    'tipo': tipo if tipo else tipo_fallback
-                })    
-                
+            evento = 'Aduana'
+            detalle = 'El envío aún no ha sido recibido por el transportista.' if envio_obj.estado in ['No Recibido', 'Desaforado'] else f'Estado {envio_obj.estado} incorrecto.'
+            # Usar fecha actual si no hay fecha disponible
+            from django.utils import timezone
+            fecha_fallback = timezone.now().strftime('%d/%m/%Y %I:%M %p')
+            tipo_fallback = 'sin_tipo'
+        
+            historial.append({
+                'evento': evento,
+                'fecha': fecha if fecha else fecha_fallback,
+                'detalle': detalle,
+                'tipo': tipo if tipo else tipo_fallback
+            })
+
         # Ordenar historial (usando la fecha como cadena formateada)
         historial.sort(key=lambda x: x['fecha'] or '', reverse=True)
         
@@ -180,7 +180,7 @@ def shipment_details(request, cod):
                 dias_para_entrega = 5
 
         elif envio_obj.estado == 'Enviado':
-                dias_para_entrega = 1
+            dias_para_entrega = 1
 
         logger.info(f'Historial completo para {cod}: {historial}')
         logger.info(f'Foto de entrega: {envio_obj.foto_entrega}')
