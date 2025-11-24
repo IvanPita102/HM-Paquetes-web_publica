@@ -68,6 +68,14 @@ def shipment_details(request, cod):
             elif envio_obj.estado == 'Enviado':
                 dias_para_entrega = 1
             
+            # Obtener URL de foto de forma segura
+            foto_url = ''
+            if envio_obj.estado == 'Entregado' and envio_obj.foto_entrega:
+                try:
+                    foto_url = envio_obj.foto_entrega.url
+                except (AttributeError, ValueError):
+                    foto_url = ''
+            
             return JsonResponse({ 
                 'success': True, 
                 'envio': {
@@ -75,7 +83,7 @@ def shipment_details(request, cod):
                     'estado': envio_obj.estado,
                     'almacen': envio_obj.locacion if envio_obj.estado != 'No Recibido' and envio_obj.locacion else '',
                     'dias_para_entrega': dias_para_entrega,
-                    'foto_confirmacion': envio_obj.foto_entrega.url if envio_obj.estado == 'Entregado' and envio_obj.foto_entrega else '',
+                    'foto_confirmacion': foto_url,
                 },
                 'historial': [], 
                 'mensaje': 'No se encontraron movimientos para este envío.' 
@@ -102,32 +110,31 @@ def shipment_details(request, cod):
             fecha_dt = getattr(doc, 'fecha_creacion', None)
             fecha = fecha_dt.strftime('%d/%m/%Y %I:%M %p') if fecha_dt else 'N/A'
 
-            match tipo:
-                case 'entradarecibida':
-                    evento = "Entrada"
-                    locacion_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocida')
-                    detalle = f"""Se da entrada al envío en el almacén <strong>{locacion_nombre}</strong>"""
+            if tipo == 'entradarecibida':
+                evento = "Entrada"
+                locacion_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocida')
+                detalle = f"""Se da entrada al envío en el almacén <strong>{locacion_nombre}</strong>"""
 
-                case 'transferenciaalmacen':
-                    evento = "Transferencia"
-                    locacion_origen_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocido')
-                    locacion_destino_nombre = getattr(getattr(doc, 'locacion_destino', None), 'nombre', 'Desconocido')
+            elif tipo == 'transferenciaalmacen':
+                evento = "Transferencia"
+                locacion_origen_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocido')
+                locacion_destino_nombre = getattr(getattr(doc, 'locacion_destino', None), 'nombre', 'Desconocido')
 
-                    detalle = f"""El envio a arribado al almacén <strong>{locacion_destino_nombre}</strong> transferido desde el almacén <strong>{locacion_origen_nombre}</strong>."""
+                detalle = f"""El envio a arribado al almacén <strong>{locacion_destino_nombre}</strong> transferido desde el almacén <strong>{locacion_origen_nombre}</strong>."""
 
-                case 'despachomensajero':
-                    locacion_origen_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocido')
-                    base_detalle = f"""El mensajero recogio el envio en el centro de distribucion <strong>{locacion_origen_nombre}</strong> y esta en proceso de entrega."""
-                    
-                    if item.devuelto:
-                        evento = "Devolución"
-                        detalle = base_detalle + "<br><br>El envío no fue entregado y se retorna al centro de distribucion."
-                    elif item.confirmado:
-                        evento = "Entrega Exitosa"
-                        detalle = "Su envío fue entregado satisfactoriamente."
-                    else:
-                        evento = "Despachado a Mensajero"
-                        detalle = base_detalle
+            elif tipo == 'despachomensajero':
+                locacion_origen_nombre = getattr(getattr(doc, 'locacion_origen', None), 'nombre', 'Desconocido')
+                base_detalle = f"""El mensajero recogio el envio en el centro de distribucion <strong>{locacion_origen_nombre}</strong> y esta en proceso de entrega."""
+                
+                if item.devuelto:
+                    evento = "Devolución"
+                    detalle = base_detalle + "<br><br>El envío no fue entregado y se retorna al centro de distribucion."
+                elif item.confirmado:
+                    evento = "Entrega Exitosa"
+                    detalle = "Su envío fue entregado satisfactoriamente."
+                else:
+                    evento = "Despachado a Mensajero"
+                    detalle = base_detalle
                 
 
             # Agregar el evento al historial
