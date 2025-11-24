@@ -177,6 +177,15 @@ def shipment_details(request, cod):
 
         logger.info(f'Historial completo para {cod}: {historial}')
         logger.info(f'Foto de entrega: {envio_obj.foto_entrega}')
+        
+        # Obtener URL de foto de forma segura
+        foto_url = ''
+        if envio_obj.estado == 'Entregado' and envio_obj.foto_entrega:
+            try:
+                foto_url = envio_obj.foto_entrega.url
+            except (AttributeError, ValueError):
+                foto_url = ''
+        
         return JsonResponse({
             'success': True, 
             'envio': {
@@ -184,7 +193,7 @@ def shipment_details(request, cod):
                 'estado': envio_obj.estado,
                 'almacen': envio_obj.locacion if envio_obj.estado != 'No Recibido' else '',
                 'dias_para_entrega': dias_para_entrega,
-                'foto_confirmacion': envio_obj.foto_entrega.url if envio_obj.estado == 'Entregado' else '',
+                'foto_confirmacion': foto_url,
             },
             'historial': historial, 
             }, safe=False)

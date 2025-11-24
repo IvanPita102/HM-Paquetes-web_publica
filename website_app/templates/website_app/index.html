@@ -200,20 +200,38 @@
 
 
     async function loadShipmentDetails(cod) {
-            const response = await fetch(`shipmentDetails/${cod}/`);
+            try {
+                const response = await fetch(`shipmentDetails/${cod}/`);
 
-            if (!response.ok) {
-                const data = await response.json();
+                // Verificar el Content-Type antes de intentar parsear JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    // Si no es JSON, probablemente es HTML (página de error)
+                    const text = await response.text();
+                    throw new Error(`Error del servidor: Se recibió una respuesta no válida. Por favor, intente nuevamente.`);
+                }
+
+                let data;
+                try {
+                    data = await response.json();
+                } catch (jsonError) {
+                    // Si falla el parsing JSON, probablemente recibimos HTML
+                    throw new Error('Error al procesar la respuesta del servidor. Por favor, intente nuevamente.');
+                }
                 
-                throw new Error(data.error || `Error HTTP: ${response.status}`);
-            }
+                if (!response.ok) {
+                    throw new Error(data.error || `Error HTTP: ${response.status}`);
+                }
 
-            const data = await response.json();
-            if (!data?.historial) {
-                throw new Error(data?.error || 'No pudo recuperar los detalles del envío.');
-            }
+                if (!data?.historial) {
+                    throw new Error(data?.error || 'No pudo recuperar los detalles del envío.');
+                }
 
-            return data;
+                return data;
+            } catch (error) {
+                // Re-lanzar el error para que sea manejado por el llamador
+                throw error;
+            }
     }
 
     function createTimeline(data) {
